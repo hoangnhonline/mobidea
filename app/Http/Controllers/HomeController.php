@@ -21,8 +21,7 @@ class HomeController extends Controller
         
     }
     public function loginForm()
-    {                   
-        var_dump(Hash::make('123465@'));
+    {   
         return view('login');
     }
 

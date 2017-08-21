@@ -75,24 +75,18 @@ class AccountController extends Controller
             'email.unique' => 'Email đã được sử dụng.'
         ]);       
         
-        $tmpPassword = str_random(10);
+        $tmpPassword = '123455@';
 
         $dataArr['password'] = Hash::make( $tmpPassword );
         
         $dataArr['created_user'] = Auth::user()->id;
 
         $dataArr['updated_user'] = Auth::user()->id;
-
+        $dataArr['role'] = 2;
         $rs = Account::create($dataArr);
-        if ( $rs->id > 0 ){
-            Mail::send('account.mail', ['full_name' => $request->full_name, 'password' => $tmpPassword, 'email' => $request->email], function ($message) use ($request) {
-                $message->from( config('mail.username'), config('mail.name'));
+        
 
-                $message->to( $request->email, $request->full_name )->subject('Mật khẩu đăng nhập hệ thống');
-            });   
-        }
-
-        Session::flash('message', 'Tạo mới tài khoản thành công. Mật khẩu đã được gửi đến email đăng ký.');
+        Session::flash('message', 'Tạo mới tài khoản thành công. Mật khẩu mặc định là: 123455@ ');
 
         return redirect()->route('account.index');
     }
@@ -103,7 +97,7 @@ class AccountController extends Controller
         $model->delete();
 
         // redirect
-        Session::flash('message', 'Xóa quốc gia thành công');
+        Session::flash('message', 'Xóa tài khoản thành công');
         return redirect()->route('account.index');
     }
     public function edit($id)

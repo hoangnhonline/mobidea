@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Helpers\Helper;
 use App\Models\Settings;
 use File, Session, DB, Auth;
 
@@ -14,9 +13,11 @@ class SettingsController  extends Controller
 {
     public function index(Request $request)
     {              
-        $settingArr = Settings::whereRaw('1')->lists('value', 'name');
-
-        return view('backend.settings.index', compact( 'settingArr'));
+        $settingList = Settings::whereRaw('1')->select('value', 'name')->get();
+        foreach($settingList as $tmp){
+            $settingArr[$tmp->name] = $tmp->value;
+        }
+        return view('settings.index', compact( 'settingArr'));
     }
 
     public function update(Request $request){

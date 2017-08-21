@@ -12,6 +12,7 @@
 */
 Route::post('/login',['as' => 'do-login' , 'uses' => 'HomeController@doLogin']);
 Route::get('/login',['as' => 'login-form' , 'uses' => 'HomeController@loginForm']);
+Route::get('/logout',['as' => 'logout', 'uses' => 'HomeController@doLogout']);
 Route::get('/',  [
             'as' => 'home',
             'uses' => 'HomeController@index']);

@@ -67,51 +67,11 @@
                   <label>Email CC</label>
                   <textarea class="form-control" rows="3" name="email_cc" id="email_cc">{{ $settingArr['email_cc'] }}</textarea>
                 </div>
-                <div class="form-group">
-                  <label>Mô tả chung</label>
-                  <textarea class="form-control" rows="7" name="mo_ta_sp" id="mo_ta_sp">{{ $settingArr['mo_ta_sp'] }}</textarea>
-                </div>
+               
                 <div class="form-group">
                   <label>Code google analystic </label>
                   <input type="text" class="form-control" name="google_analystic" id="google_analystic" value="{{ $settingArr['google_analystic'] }}">
-                </div>   
-                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                  <label class="col-md-3 row">Logo </label>    
-                  <div class="col-md-9">
-                    <img id="thumbnail_logo" src="{{ $settingArr['logo'] ? Helper::showImage($settingArr['logo']) : URL::asset('admin/dist/img/img.png') }}" class="img-logo" width="150" >
-                    
-                    <input type="file" id="file-logo" style="display:none" />
-                 
-                    <button class="btn btn-default" id="btnUploadLogo" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
-                  </div>
-                  <div style="clear:both"></div>
-                </div>
-                <div style="clear:both"></div> 
-                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                  <label class="col-md-3 row">Favicon </label>    
-                  <div class="col-md-9">
-                    <img id="thumbnail_favicon" src="{{ $settingArr['favicon'] ? Helper::showImage($settingArr['favicon']) : URL::asset('admin/dist/img/img.png') }}" class="img-favicon" width="50">
-                    
-                    <input type="file" id="file-favicon" style="display:none" />
-                 
-                    <button class="btn btn-default" id="btnUploadFavicon" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
-                  </div>
-                  <div style="clear:both"></div>
-                </div>
-                <div style="clear:both"></div> 
-                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                  <label class="col-md-3 row">Banner ( og:image ) </label>    
-                  <div class="col-md-9">
-                    <img id="thumbnail_banner" src="{{ $settingArr['banner'] ? Helper::showImage($settingArr['banner']) : URL::asset('admin/dist/img/img.png') }}" class="img-banner" width="200">
-                    
-                    <input type="file" id="file-banner" style="display:none" />
-                 
-                    <button class="btn btn-default" id="btnUploadBanner" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
-                  </div>
-                  <div style="clear:both"></div>
-                </div>
-                <div style="clear:both"></div>            
-                 
+                </div>                    
             </div>                        
             <div class="box-footer">
               <button type="submit" class="btn btn-primary">Lưu</button>         
@@ -154,165 +114,10 @@
       </div>
       <!--/.col (left) -->      
     </div>
-<input type="hidden" name="logo" id="logo" value="{{ $settingArr['logo'] }}"/>          
-<input type="hidden" name="logo_name" id="logo_name" value="{{ old('logo_name') }}"/>
-<input type="hidden" name="favicon" id="favicon" value="{{ $settingArr['favicon'] }}"/>          
-<input type="hidden" name="favicon_name" id="favicon_name" value="{{ old('favicon_name') }}"/>
-<input type="hidden" name="banner" id="banner" value="{{ $settingArr['banner'] }}"/>          
-<input type="hidden" name="banner_name" id="banner_name" value="{{ old('banner_name') }}"/>
-
     </form>
     <!-- /.row -->
   </section>
   <!-- /.content -->
 </div>
-<input type="hidden" id="route_upload_tmp_image" value="{{ route('image.tmp-upload') }}">
-@stop
-@section('javascript_page')
-<script type="text/javascript">
-    $(document).ready(function(){
-      var editor = CKEDITOR.replace( 'mo_ta_sp',{
-          language : 'vi',
-          filebrowserBrowseUrl: "{{ URL::asset('/admin/dist/js/kcfinder/browse.php?type=files') }}",
-          filebrowserImageBrowseUrl: "{{ URL::asset('/admin/dist/js/kcfinder/browse.php?type=images') }}",
-          filebrowserFlashBrowseUrl: "{{ URL::asset('/admin/dist/js/kcfinder/browse.php?type=flash') }}",
-          filebrowserUploadUrl: "{{ URL::asset('/admin/dist/js/kcfinder/upload.php?type=files') }}",
-          filebrowserImageUploadUrl: "{{ URL::asset('/admin/dist/js/kcfinder/upload.php?type=images') }}",
-          filebrowserFlashUploadUrl: "{{ URL::asset('/admin/dist/js/kcfinder/upload.php?type=flash') }}",
-          height : 500
-      });
-      $('#btnUploadLogo').click(function(){        
-        $('#file-logo').click();
-      });
-      $('#btnUploadFavicon').click(function(){        
-        $('#file-favicon').click();
-      });
-      $('#btnUploadBanner').click(function(){        
-        $('#file-banner').click();
-      });
-      var files = "";
-      $('#file-logo').change(function(e){
-         files = e.target.files;
-         
-         if(files != ''){
-           var dataForm = new FormData();        
-          $.each(files, function(key, value) {
-             dataForm.append('file', value);
-          });   
-          
-          dataForm.append('date_dir', 0);
-          dataForm.append('folder', 'tmp');
 
-          $.ajax({
-            url: $('#route_upload_tmp_image').val(),
-            type: "POST",
-            async: false,      
-            data: dataForm,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-              if(response.image_path){
-                $('#thumbnail_logo').attr('src',$('#upload_url').val() + response.image_path);
-                $( '#logo' ).val( response.image_path );
-                $( '#logo_name' ).val( response.image_name );
-              }
-              console.log(response.image_path);
-                //window.location.reload();
-            },
-            error: function(response){                             
-                var errors = response.responseJSON;
-                for (var key in errors) {
-                  
-                }
-                //$('#btnLoading').hide();
-                //$('#btnSave').show();
-            }
-          });
-        }
-      });
-      var filesFavicon = '';
-      $('#file-favicon').change(function(e){
-         filesFavicon = e.target.files;
-         
-         if(filesFavicon != ''){
-           var dataForm = new FormData();        
-          $.each(filesFavicon, function(key, value) {
-             dataForm.append('file', value);
-          });
-          
-          dataForm.append('date_dir', 0);
-          dataForm.append('folder', 'tmp');
-
-          $.ajax({
-            url: $('#route_upload_tmp_image').val(),
-            type: "POST",
-            async: false,      
-            data: dataForm,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-              if(response.image_path){
-                $('#thumbnail_favicon').attr('src',$('#upload_url').val() + response.image_path);
-                $('#favicon').val( response.image_path );
-                $( '#favicon_name' ).val( response.image_name );
-              }
-              console.log(response.image_path);
-                //window.location.reload();
-            },
-            error: function(response){                             
-                var errors = response.responseJSON;
-                for (var key in errors) {
-                  
-                }
-                //$('#btnLoading').hide();
-                //$('#btnSave').show();
-            }
-          });
-        }
-      });
-      
-      var filesBanner = '';
-      $('#file-banner').change(function(e){
-         filesBanner = e.target.files;
-         
-         if(filesBanner != ''){
-           var dataForm = new FormData();        
-          $.each(filesBanner, function(key, value) {
-             dataForm.append('file', value);
-          });
-          
-          dataForm.append('date_dir', 0);
-          dataForm.append('folder', 'tmp');
-
-          $.ajax({
-            url: $('#route_upload_tmp_image').val(),
-            type: "POST",
-            async: false,      
-            data: dataForm,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-              if(response.image_path){
-                $('#thumbnail_banner').attr('src',$('#upload_url').val() + response.image_path);
-                $('#banner').val( response.image_path );
-                $( '#banner_name' ).val( response.image_name );
-              }
-              console.log(response.image_path);
-                //window.location.reload();
-            },
-            error: function(response){                             
-                var errors = response.responseJSON;
-                for (var key in errors) {
-                  
-                }
-                //$('#btnLoading').hide();
-                //$('#btnSave').show();
-            }
-          });
-        }
-      });
-
-    });
-    
-</script>
 @stop
