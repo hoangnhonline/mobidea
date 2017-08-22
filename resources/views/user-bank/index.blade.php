@@ -4,11 +4,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    Smart link
+    Tài khoản ngân hàng
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route( 'home' ) }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="{{ route( 'smart-link.index' ) }}">Smart link</a></li>
+    <li><a href="{{ route( 'user-bank.index' ) }}">Tài khoản ngân hàng</a></li>
     <li class="active">List</li>
   </ol>
 </section>
@@ -20,12 +20,12 @@
       @if(Session::has('message'))
       <p class="alert alert-info" >{{ Session::get('message') }}</p>
       @endif
-      <a href="{{ route('smart-link.create') }}" class="btn btn-info  btn-sm" style="margin-bottom:5px">Add new</a>
+      <a href="{{ route('user-bank.create') }}" class="btn btn-info" style="margin-bottom:5px">Add new</a>
       
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">List ( <span class="value">{{ $items->total() }} )</span></h3>
+          <h3 class="box-title">List ( <span class="value">{{ $items->total() }} links )</span></h3>
         </div>
         
         <!-- /.box-header -->
@@ -40,7 +40,7 @@
             <table class="table table-bordered" id="table-list-data">
               <tr>
                 <th style="width: 1%">#</th>                    
-                <th>Smart link</th>                
+                <th>Tài khoản ngân hàng</th>                
                 <th width="1%;white-space:nowrap">Action</th>
               </tr>
               <tbody>
@@ -52,16 +52,14 @@
                   <td><span class="order">{{ $i }}</span></td>      
                   
                   <td>                  
-                    <a href="{{ route( 'smart-link.edit', [ 'id' => $item->id ]) }}">{{ $item->smart_link }}</a>
+                    {{ $item->bank_name }} chi nhánh {{ $item->branch }}<br>
+                    {{ $item->fullname }} - {{ $item->account_no }}<br>                   
+                    {{ $item->phone }}
                   </td>
                                    <td style="white-space:nowrap">                  
-                    <a href="{{ route( 'smart-link.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm" title="Edit">
-                      <i class="fa fa-edit"></i>
-                    </a>                 
+                    <a href="{{ route( 'user-bank.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm">Edit</a>                 
                     
-                    <a onclick="return callDelete('{{ $item->smart_link }}','{{ route( 'smart-link.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger btn-sm" title="Delete">
-                      <i class="fa fa-trash"></i>
-                    </a>
+                    <a onclick="return callDelete('{{ $item->title }}','{{ route( 'user-bank.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger btn-sm">Delete</a>
                     
                   </td>
                 </tr> 

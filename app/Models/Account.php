@@ -23,7 +23,7 @@ class Account extends Model  {
      *
      * @var array
      */
-    protected $fillable = ['fullname', 'smart_link_id', 'email', 'password', 'status', 'changed_password', 'remember_token', 'role', 'created_user', 'updated_user', 'username'];
+    protected $fillable = ['fullname', 'smart_link_id', 'email', 'password', 'status', 'changed_password', 'remember_token', 'role', 'created_user', 'updated_user', 'username', 'total_money'];
 
     public function smartLink()
     {

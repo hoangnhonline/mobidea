@@ -15,7 +15,7 @@ Use App\Models\Settings;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
-Use Hash, Auth;
+Use Hash, Auth, Session;
 
 class HomeController extends Controller
 {
@@ -27,13 +27,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $dataList = Account::where('status', 1)->where('role', 3)
+        if(Auth::user()->role == 3){
+             $dataList = Account::where('status', 1)->where('users.id', Auth::user()->id)
+                ->join('smart_link', 'smart_link.id', '=', 'users.smart_link_id')
+                ->leftJoin('counter_values', 'users.smart_link_id', '=', 'counter_values.smart_link_id')
+                ->orderBy('counter_values.day_value', 'desc')
+                ->orderBy('counter_values.all_value', 'desc')
+                ->select('users.fullname', 'smart_link', 'day_value as traffic', 'users.id as user_id')
+                ->first();
+        }else{
+            $dataList = Account::where('status', 1)->where('role', 3)
             ->join('smart_link', 'smart_link.id', '=', 'users.smart_link_id')
             ->leftJoin('counter_values', 'users.smart_link_id', '=', 'counter_values.smart_link_id')
             ->orderBy('counter_values.day_value', 'desc')
             ->orderBy('counter_values.all_value', 'desc')
-            ->select('users.fullname', 'smart_link', 'day_value as traffic')
-            ->get();
+            ->select('users.fullname', 'smart_link', 'day_value as traffic', 'users.id as user_id')
+            ->get();    
+        }
+             
         $cpa_traffic = Settings::where('name', 'cpa_traffic')->first()->value;
         return view('dashboard.index', compact('dataList', 'cpa_traffic'));
     }
@@ -71,4 +82,8 @@ class HomeController extends Controller
 
         return redirect()->route('home');
     }
+    public function doLogout() {
+        Auth::logout();
+        return redirect()->route('login-form');
+    } 
 }

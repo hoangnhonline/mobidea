@@ -6,30 +6,25 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\SmartLink;
+use App\Models\UserBank;
 use Helper, File, Session, Auth, DB;
 
-class SmartLinkController extends Controller
+class UserBankController extends Controller
 {
     /**
     * Display a listing of the resource.
     *
     * @return Response
     */
-    public function _construct(){
-        if(Auth::user()->role != 1){
-            return redirect()->route('home');
-        }
-    }
     public function index(Request $request)
     {
 
-        $query = SmartLink::whereRaw('1');
+        $query = UserBank::whereRaw('1')->where('user_id', Auth::user()->id);
 
         $items = $query->orderBy('id', 'desc')->paginate(20);
         
       
-        return view('smart-link.index', compact( 'items' ));
+        return view('user-bank.index', compact( 'items' ));
     }
 
     /**
@@ -40,7 +35,7 @@ class SmartLinkController extends Controller
     public function create(Request $request)
     {          
 
-        return view('smart-link.create');
+        return view('user-bank.create');
     }
 
     /**
@@ -54,19 +49,19 @@ class SmartLinkController extends Controller
         $dataArr = $request->all();
         
         $this->validate($request,[                                    
-            'smart_link' => 'required'            
-        ],
-        [                                    
-            'smart_link.required' => 'Please enter smart link'
+            'fullname' => 'required',
+            'account_no' => 'required',
+            'bank_name' => 'required',
+            'branch' => 'required',
+            'phone' => 'required',
         ]);       
         
-        unset($dataArr['_token']);
-        
-        DB::table('smart_link')->insert($dataArr);        
+        $dataArr['user_id'] = Auth::user()->id;
+        UserBank::create($dataArr);
         
         Session::flash('message', 'Add new success');
 
-        return redirect()->route('smart-link.index');
+        return redirect()->route('user-bank.index');
     }
 
     /**
@@ -89,9 +84,9 @@ class SmartLinkController extends Controller
     public function edit($id)
     {        
 
-        $detail = SmartLink::find($id);
+        $detail = UserBank::find($id);
 
-        return view('smart-link.edit', compact('detail'));
+        return view('user-bank.edit', compact('detail'));
     }
 
     /**
@@ -106,19 +101,19 @@ class SmartLinkController extends Controller
         $dataArr = $request->all();
         
         $this->validate($request,[                                    
-            'smart_link' => 'required'            
-        ],
-        [                                    
-            'smart_link.required' => 'Please enter smart link'
+            'fullname' => 'required',
+            'account_no' => 'required',
+            'bank_name' => 'required',
+            'branch' => 'required',
+            'phone' => 'required',
         ]);       
         
-        
-        unset($dataArr['_token']);
-        DB::table('smart_link')->where('id', $dataArr['id'])->update($dataArr);
+       $model = UserBank::find($dataArr['id']); 
+       $model->update($dataArr);
        
         Session::flash('message', 'Update success');        
 
-        return redirect()->route('smart-link.index');
+        return redirect()->route('user-bank.index');
     }
 
     /**
@@ -130,11 +125,11 @@ class SmartLinkController extends Controller
     public function destroy($id)
     {
         // delete
-        $model = SmartLink::find($id);
+        $model = UserBank::find($id);
         $model->delete();
 
         // redirect
         Session::flash('message', 'Delete success');
-        return redirect()->route('smart-link.index');
+        return redirect()->route('user-bank.index');
     }
 }

@@ -43,12 +43,21 @@
                  <!-- text input -->
                 <div class="form-group">
                   <label>Full name <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" name="full_name" id="full_name" value="{{ $detail->full_name }}">
+                  <input type="text" class="form-control" name="fullname" id="fullname" value="{{ $detail->fullname }}">
                 </div>
                 <div class="form-group">
                   <label>Username <span class="red-star">*</span></label>
                   <input type="text" class="form-control" readonly="true" name="username" id="username" value="{{ $detail->username }}">
-                </div>         
+                </div>     
+                <div class="form-group">
+                  <label>Smart link <span class="red-star">*</span></label>
+                  <select class="form-control" name="smart_link_id" id="smart_link_id">
+                    <option value=""> -- select --</option>                    
+                    @foreach($smartLinkList as $link)
+                    <option value="{{ $link->id}}" {{ $link->id == $detail->smart_link_id ? "selected" : "" }}>{{ $link->smart_link }}</option>
+                    @endforeach
+                  </select>
+                </div>    
                  <div class="form-group">
                   <label>Email <span class="red-star">*</span></label>
                   <input type="text" class="form-control" name="email" id="email" value="{{ $detail->email }}">
@@ -61,15 +70,7 @@
                     <option value="2" {{ $detail->status == 2 ? "selected" : "" }}>Khóa</option>                    
                   </select>
                 </div>
-                <div class="form-group">
-                  <label>Smart link</label>
-                  <select class="form-control" name="status" id="status">
-                    <option value=""> -- select --</option>                    
-                    @foreach($smartLink as $link)
-                    <option value="{{ $link->id}}">{{ $link->smart_link }}</option>
-                    @endforeach
-                  </select>
-                </div>
+                
             </div>
             <div class="box-footer">
               <button type="button" class="btn btn-default" id="btnLoading" style="display:none"><i class="fa fa-spin fa-spinner"></i></button>

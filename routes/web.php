@@ -38,6 +38,8 @@ Route::group(['middleware' => 'isAdmin'], function () {
         Route::post('/store', ['as' => 'account.store', 'uses' => 'AccountController@store']);
         Route::get('{id}/edit',   ['as' => 'account.edit', 'uses' => 'AccountController@edit']);
         Route::post('/update', ['as' => 'account.update', 'uses' => 'AccountController@update']);
+        Route::get('/cap-nhat-cuoi-ngay', ['as' => 'account.update-end-date', 'uses' => 'AccountController@updateEndDay']);
+        Route::post('/luu-cap-nhat-cuoi-ngay', ['as' => 'account.store-end-day', 'uses' => 'AccountController@storeEndDay']);
         Route::get('{id}/destroy', ['as' => 'account.destroy', 'uses' => 'AccountController@destroy']);
     });
     Route::group(['prefix' => 'smart-link'], function () {
@@ -47,6 +49,22 @@ Route::group(['middleware' => 'isAdmin'], function () {
         Route::get('{id}/edit',   ['as' => 'smart-link.edit', 'uses' => 'SmartLinkController@edit']);
         Route::post('/update', ['as' => 'smart-link.update', 'uses' => 'SmartLinkController@update']);
         Route::get('{id}/destroy', ['as' => 'smart-link.destroy', 'uses' => 'SmartLinkController@destroy']);
+    });
+    Route::group(['prefix' => 'user-bank'], function () {
+        Route::get('/', ['as' => 'user-bank.index', 'uses' => 'UserBankController@index']);
+        Route::get('/create', ['as' => 'user-bank.create', 'uses' => 'UserBankController@create']);
+        Route::post('/store', ['as' => 'user-bank.store', 'uses' => 'UserBankController@store']);
+        Route::get('{id}/edit',   ['as' => 'user-bank.edit', 'uses' => 'UserBankController@edit']);
+        Route::post('/update', ['as' => 'user-bank.update', 'uses' => 'UserBankController@update']);
+        Route::get('{id}/destroy', ['as' => 'user-bank.destroy', 'uses' => 'UserBankController@destroy']);
+    });
+    Route::group(['prefix' => 'rut-tien'], function () {
+        Route::get('/', ['as' => 'rut-tien.index', 'uses' => 'WithdrawHistoryController@index']);
+        Route::get('/create', ['as' => 'rut-tien.create', 'uses' => 'WithdrawHistoryController@create']);
+        Route::post('/store', ['as' => 'rut-tien.store', 'uses' => 'WithdrawHistoryController@store']);
+        Route::get('{id}/edit',   ['as' => 'rut-tien.edit', 'uses' => 'WithdrawHistoryController@edit']);
+        Route::post('/update', ['as' => 'rut-tien.update', 'uses' => 'WithdrawHistoryController@update']);
+        Route::get('{id}/destroy', ['as' => 'rut-tien.destroy', 'uses' => 'WithdrawHistoryController@destroy']);
     });
 });
 

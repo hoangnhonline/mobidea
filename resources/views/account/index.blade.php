@@ -20,7 +20,7 @@
       @if(Session::has('message'))
       <p class="alert alert-info" >{{ Session::get('message') }}</p>
       @endif
-      <a href="{{ route('account.create') }}" class="btn btn-info" style="margin-bottom:5px">Add member</a>
+      <a href="{{ route('account.create') }}" class="btn btn-info btn-sm" style="margin-bottom:5px">Add member</a>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Filter</h3>
@@ -56,22 +56,35 @@
                     <br>
                     {{ $item->email }}
                   </td>
-                  <td>{{ $item->username }}</td>   
+                  <td><strong style="color:#dd4b39 ">{{ $item->username }}</strong></td>   
                   <td>
                     <a href="{{ $item->smartLink->smart_link }}" target="_blank">{{ $item->smartLink->smart_link }}</a>
                   </td>
-                  <td>{{ $item->status == 1 ? "Available"  : "Lock" }}</td>
+                  <td>@if($item->status == 1) 
+                    <label class="label label-info">Available</label>
+                    @else<label class="label label-danger">Lock</label>
+                    @endif</td>
                   <td style="white-space:nowrap">  
-                    <a href="{{ route( 'account.update-status', ['status' => $item->status == 1 ? 2 : 1 , 'id' => $item->id ])}}" class="btn btn-sm {{ $item->status == 1 ? "btn-warning" : "btn-info" }}" 
+                    <a href="{{ route( 'account.update-status', ['status' => $item->status == 1 ? 2 : 1 , 'id' => $item->id ])}}" @if($item->status == 1) title="Khóa" @else title="Mở khóa" @endif class="btn btn-sm {{ $item->status == 1 ? "btn-warning" : "btn-info" }}" 
                     @if( $item->status == 2)
                     onclick="return confirm('Bạn chắc chắn muốn MỞ khóa tài khoản này? '); "
                     @else
                     onclick="return confirm('Bạn chắc chắn muốn KHÓA tài khoản này? '); "
                     @endif
-                    >{{ $item->status == 1 ? "Lock" : "Un-lock" }}</a>                
-                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}" class="btn-sm btn btn-primary">Update</a>                 
+                    >
+                    @if($item->status == 1)
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    @else
+                    <i class="fa fa-unlock" aria-hidden="true"></i>
+                    @endif
+                    </a>
+                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}" class="btn-sm btn btn-primary" title="Edit">
+                      <i class="fa fa-edit" aria-hidden="true"></i>
+                    </a>                 
                     
-                    <a onclick="return callDelete('{{ $item->name }}','{{ route( 'account.destroy', [ 'id' => $item->id ]) }}');" class="btn-sm btn btn-danger">Delete</a>
+                    <a onclick="return callDelete('{{ $item->name }}','{{ route( 'account.destroy', [ 'id' => $item->id ]) }}');" class="btn-sm btn btn-danger" title="Delete">
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
                     
                   </td>
                 </tr> 

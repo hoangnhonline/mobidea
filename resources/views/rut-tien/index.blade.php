@@ -4,11 +4,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    Smart link
+    Rút tiền
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route( 'home' ) }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="{{ route( 'smart-link.index' ) }}">Smart link</a></li>
+    <li><a href="{{ route( 'rut-tien.index' ) }}">Rút tiền</a></li>
     <li class="active">List</li>
   </ol>
 </section>
@@ -20,27 +20,31 @@
       @if(Session::has('message'))
       <p class="alert alert-info" >{{ Session::get('message') }}</p>
       @endif
-      <a href="{{ route('smart-link.create') }}" class="btn btn-info  btn-sm" style="margin-bottom:5px">Add new</a>
+      @if(Auth::user()->role == 3)
+      <a href="{{ route('rut-tien.create') }}" class="btn btn-info btn-sm" style="margin-bottom:5px">Yêu cầu rút tiền</a>
+      @endif
       
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">List ( <span class="value">{{ $items->total() }} )</span></h3>
+          <h3 class="box-title">History ( <span class="value">{{ $items->total() }} )</span></h3>
         </div>
         
         <!-- /.box-header -->
-        <div class="box-body">
-
-
-           
-   
+        <div class="box-body">   
              <div style="text-align:center">
               {{ $items->links() }}
             </div>  
             <table class="table table-bordered" id="table-list-data">
               <tr>
-                <th style="width: 1%">#</th>                    
-                <th>Smart link</th>                
+                <th style="width: 1%">#</th>      
+                @if(Auth::user()->role !=3)
+                <th>Member</th>            
+                @endif  
+                <th>Ngày yêu cầu</th>
+
+                <th class="text-right">Số tiền</th>
+                <th class="text-center">Trạng thái</th>
                 <th width="1%;white-space:nowrap">Action</th>
               </tr>
               <tbody>
@@ -49,20 +53,31 @@
                 @foreach( $items as $item )
                   <?php $i ++; ?>
                 <tr id="row-{{ $item->id }}">
-                  <td><span class="order">{{ $i }}</span></td>      
-                  
-                  <td>                  
-                    <a href="{{ route( 'smart-link.edit', [ 'id' => $item->id ]) }}">{{ $item->smart_link }}</a>
+                  <td><span class="order">{{ $i }}</span></td>
+                  @if(Auth::user()->role !=3)   
+                  <td>{{ $item->fullname }}</td>   
+                  @endif
+                  <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
+                  <td class="text-right">                  
+                    {{ $item->money_request }}
                   </td>
-                                   <td style="white-space:nowrap">                  
-                    <a href="{{ route( 'smart-link.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm" title="Edit">
+                  <td class="text-center">
+                    @if($item->status == 1)
+                      <label class="label label-danger">Đang yêu cầu</label>
+                    @else
+                       <label class="label label-success">Đã chuyển</label>
+                    @endif
+                  </td>
+                  <td style="white-space:nowrap">                  
+                    @if($item->status == 1)
+                    <a href="{{ route( 'rut-tien.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm" title="Edit">
                       <i class="fa fa-edit"></i>
                     </a>                 
                     
-                    <a onclick="return callDelete('{{ $item->smart_link }}','{{ route( 'smart-link.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger btn-sm" title="Delete">
+                    <a onclick="return callDelete('{{ $item->title }}','{{ route( 'rut-tien.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger btn-sm" title="Delete">
                       <i class="fa fa-trash"></i>
                     </a>
-                    
+                    @endif
                   </td>
                 </tr> 
                 @endforeach
@@ -93,7 +108,7 @@
 <script type="text/javascript">
 function callDelete(name, url){  
   swal({
-    title: 'Bạn muốn xóa "' + name +'"?',
+    title: 'Bạn có chắc chắn xóa ?',
     text: "Dữ liệu sẽ không thể phục hồi.",
     type: 'warning',
     showCancelButton: true,

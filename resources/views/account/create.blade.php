@@ -20,7 +20,7 @@
     <div class="row">
       <!-- left column -->
 
-      <div class="col-md-7">
+      <div class="col-md-12">
         <!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
@@ -43,15 +43,24 @@
                  <!-- text input -->
                 <div class="form-group">
                   <label>Full name <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" name="full_name" id="full_name" value="{{ old('full_name') }}">
+                  <input type="text" class="form-control" name="fullname" id="fullname" value="{{ old('fullname') }}">
                 </div>
                 <div class="form-group">
                   <label>Username <span class="red-star">*</span></label>
                   <input type="text" class="form-control" name="username" id="username" value="{{ old('username') }}">
                 </div>
+                <div class="form-group">
+                  <label>Smart link <span class="red-star">*</span></label>
+                  <select class="form-control" name="smart_link_id" id="smart_link_id">
+                    <option value="">--select--</option>
+                    @foreach($smartLinkList as $link)
+                    <option {{ old('smart_link_id') == $link->id ? "selected" : "" }} value="{{ $link->id }}">{{ $link->smart_link }}</option>
+                    @endforeach
+                  </select>
+                </div>
                  <div class="form-group">
-                  <label>Email <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" name="email" id="email" value="{{ old('email') }}">
+                  <label>Email</label>
+                  <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
                 </div>                           
                 <div class="form-group">
                   <label>Status</label>
