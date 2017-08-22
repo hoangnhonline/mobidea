@@ -15,7 +15,7 @@ Use App\Models\Settings;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
-Use Hash;
+Use Hash, Auth;
 
 class HomeController extends Controller
 {

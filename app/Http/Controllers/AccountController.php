@@ -8,6 +8,7 @@ use Hash;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+use App\Models\SmartLink;
 
 use Helper, File, Session, Auth;
 
@@ -29,8 +30,10 @@ class AccountController extends Controller
     public function create()
     {         
         //$parentCate = Category::where('parent_id', 0)->where('type', 1)->orderBy('display_order')->get();
-
-        return view('account.create');
+        $smartLinkList = SmartLink::whereRaw('id NOT IN (SELECT smart_link_id FROM users where statuss = 1)')->get();
+        
+        dd($smartLinkList);
+        return view('account.create', compact('smartLinkList'));
     }
     public function changePass(){
         return view('account.change-pass');   

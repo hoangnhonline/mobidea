@@ -24,4 +24,6 @@ class SmartLink extends Model  {
      * @var array
      */
     protected $fillable = ['smart_link'];
+
+    
 }
