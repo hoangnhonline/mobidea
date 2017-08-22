@@ -43,35 +43,18 @@
               @endif
                  <!-- text input -->
                 <div class="form-group">
-                  <label>Tên site <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" name="site_name" id="site_name" value="{{ $settingArr['site_name'] }}">
+                  <label>USD/K traffic</label>
+                  <input type="text" class="form-control" name="cpa_traffic" id="cpa_traffic" value="{{ $settingArr['cpa_traffic'] }}">
                 </div>
                 
                 <div class="form-group">
-                  <label>Facebook</label>
-                  <input type="text" class="form-control" name="facebook_fanpage" id="facebook_fanpage" value="{{ $settingArr['facebook_fanpage'] }}">
+                  <label>Time Expires</label>
+                  <input type="text" class="form-control" name="time_expires" id="time_expires" value="{{ $settingArr['time_expires'] }}">
                 </div>
                 <div class="form-group">
-                  <label>Facebook APP ID</label>
-                  <input type="text" class="form-control" name="facebook_appid" id="facebook_appid" value="{{ $settingArr['facebook_appid'] }}">
+                  <label>Ignore IPs</label>
+                  <textarea class="form-control" rows="4" name="ignore_ips" id="ignore_ips">{{ $settingArr['ignore_ips'] }}</textarea>
                 </div>
-                <div class="form-group">
-                  <label>Google +</label>
-                  <input type="text" class="form-control" name="google_fanpage" id="google_fanpage" value="{{ $settingArr['google_fanpage'] }}">
-                </div>
-                <div class="form-group">
-                  <label>Twitter</label>
-                  <input type="text" class="form-control" name="twitter_fanpage" id="twitter_fanpage" value="{{ $settingArr['twitter_fanpage'] }}">
-                </div>
-                <div class="form-group">
-                  <label>Email CC</label>
-                  <textarea class="form-control" rows="3" name="email_cc" id="email_cc">{{ $settingArr['email_cc'] }}</textarea>
-                </div>
-               
-                <div class="form-group">
-                  <label>Code google analystic </label>
-                  <input type="text" class="form-control" name="google_analystic" id="google_analystic" value="{{ $settingArr['google_analystic'] }}">
-                </div>                    
             </div>                        
             <div class="box-footer">
               <button type="submit" class="btn btn-primary">Lưu</button>         
@@ -83,35 +66,7 @@
       </div>
       <div class="col-md-5">
         <!-- general form elements -->
-        <div class="box box-primary">
-          <div class="box-header with-border">
-            <h3 class="box-title">Thông tin SEO</h3>
-          </div>
-          <!-- /.box-header -->
-            <div class="box-body">
-              <div class="form-group">
-                <label>Meta title <span class="red-star">*</span></label>
-                <input type="text" class="form-control" name="site_title" id="site_title" value="{{ $settingArr['site_title'] }}">
-              </div>
-              <!-- textarea -->
-              <div class="form-group">
-                <label>Meta desciption <span class="red-star">*</span></label>
-                <textarea class="form-control" rows="4" name="site_description" id="site_description">{{ $settingArr['site_description'] }}</textarea>
-              </div>  
-
-              <div class="form-group">
-                <label>Meta keywords <span class="red-star">*</span></label>
-                <textarea class="form-control" rows="4" name="site_keywords" id="site_keywords">{{ $settingArr['site_keywords'] }}</textarea>
-              </div>  
-              <div class="form-group">
-                <label>Custom text</label>
-                <textarea class="form-control" rows="4" name="custom_text" id="custom_text">{{ $settingArr['custom_text'] }}</textarea>
-              </div>
-            
-        </div>
-        <!-- /.box -->     
-
-      </div>
+       
       <!--/.col (left) -->      
     </div>
     </form>

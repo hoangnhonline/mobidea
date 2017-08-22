@@ -40,6 +40,14 @@ Route::group(['middleware' => 'isAdmin'], function () {
         Route::post('/update', ['as' => 'account.update', 'uses' => 'AccountController@update']);
         Route::get('{id}/destroy', ['as' => 'account.destroy', 'uses' => 'AccountController@destroy']);
     });
+    Route::group(['prefix' => 'smart-link'], function () {
+        Route::get('/', ['as' => 'smart-link.index', 'uses' => 'SmartLinkController@index']);
+        Route::get('/create', ['as' => 'smart-link.create', 'uses' => 'SmartLinkController@create']);
+        Route::post('/store', ['as' => 'smart-link.store', 'uses' => 'SmartLinkController@store']);
+        Route::get('{id}/edit',   ['as' => 'smart-link.edit', 'uses' => 'SmartLinkController@edit']);
+        Route::post('/update', ['as' => 'smart-link.update', 'uses' => 'SmartLinkController@update']);
+        Route::get('{id}/destroy', ['as' => 'smart-link.destroy', 'uses' => 'SmartLinkController@destroy']);
+    });
 });
 
 

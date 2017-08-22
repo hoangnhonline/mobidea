@@ -22,72 +22,12 @@ class SettingsController  extends Controller
 
     public function update(Request $request){
 
-    	$dataArr = $request->all();
-
-    	$this->validate($request,[            
-            'site_name' => 'required',            
-            'site_title' => 'required',            
-            'site_description' => 'required',            
-            'site_keywords' => 'required',                                    
-        ],
-        [            
-            'site_name.required' => 'Bạn chưa nhập tên site',            
-            'site_title.required' => 'Bạn chưa nhập meta title',
-            'site_description.required' => 'Bạn chưa nhập meta desciption',
-            'site_keywords.unique' => 'Bạn chưa nhập meta keywords.'
-        ]);  
-
-    	if($dataArr['logo'] && $dataArr['logo_name']){
-            
-            $tmp = explode('/', $dataArr['logo']);
-
-            if(!is_dir('uploads/'.date('Y/m/d'))){
-                mkdir('uploads/'.date('Y/m/d'), 0777, true);
-            }
-
-            $destionation = date('Y/m/d'). '/'. end($tmp);
-            
-            File::move(config('annam.upload_path').$dataArr['logo'], config('annam.upload_path').$destionation);
-            
-            $dataArr['logo'] = $destionation;
-        }
-
-        if($dataArr['favicon'] && $dataArr['favicon_name']){
-            
-            $tmp = explode('/', $dataArr['favicon']);
-
-            if(!is_dir('uploads/'.date('Y/m/d'))){
-                mkdir('uploads/'.date('Y/m/d'), 0777, true);
-            }
-
-            $destionation = date('Y/m/d'). '/'. end($tmp);
-            
-            File::move(config('annam.upload_path').$dataArr['favicon'], config('annam.upload_path').$destionation);
-            
-            $dataArr['favicon'] = $destionation;
-        }
-
-        if($dataArr['banner'] && $dataArr['banner_name']){
-            
-            $tmp = explode('/', $dataArr['banner']);
-
-            if(!is_dir('uploads/'.date('Y/m/d'))){
-                mkdir('uploads/'.date('Y/m/d'), 0777, true);
-            }
-
-            $destionation = date('Y/m/d'). '/'. end($tmp);
-            
-            File::move(config('annam.upload_path').$dataArr['banner'], config('annam.upload_path').$destionation);
-            
-            $dataArr['banner'] = $destionation;
-        }        
+    	$dataArr = $request->all();    	    	     
 
         $dataArr['updated_user'] = Auth::user()->id;
 
         unset($dataArr['_token']);
-        unset($dataArr['logo_name']);
-        unset($dataArr['favicon_name']);
-        unset($dataArr['banner_name']);
+
 
     	foreach( $dataArr as $key => $value ){
     		$data['value'] = $value;

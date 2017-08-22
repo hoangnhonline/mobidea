@@ -23,5 +23,10 @@ class Account extends Model  {
      *
      * @var array
      */
-    protected $fillable = ['fullname', 'direct', 'email', 'password', 'status', 'changed_password', 'remember_token', 'role'];
+    protected $fillable = ['fullname', 'smart_link_id', 'email', 'password', 'status', 'changed_password', 'remember_token', 'role', 'created_user', 'updated_user', 'username'];
+
+    public function smartLink()
+    {
+        return $this->belongsTo('App\Models\SmartLink', 'smart_link_id');
+    }
 }

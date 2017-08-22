@@ -4,18 +4,18 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-    Tài khoản
+    Member
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-      <li><a href="{{ route('account.index') }}">Tài khoản</a></li>
-      <li class="active">Chỉnh sửa</li>
+      <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li><a href="{{ route('account.index') }}">Member</a></li>
+      <li class="active">Update</li>
     </ol>
   </section>
 
   <!-- Main content -->
   <section class="content">
-    <a class="btn btn-default btn-sm" href="{{ route('account.index') }}" style="margin-bottom:5px">Quay lại</a>
+    <a class="btn btn-default btn-sm" href="{{ route('account.index') }}" style="margin-bottom:5px">Back</a>
     <form role="form" method="POST" action="{{ route('account.update') }}" id="formData">
     <div class="row">
       <!-- left column -->
@@ -24,7 +24,7 @@
         <!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Chỉnh sửa</h3>
+            <h3 class="box-title">Update</h3>
           </div>
           <!-- /.box-header -->               
             {!! csrf_field() !!}
@@ -42,32 +42,39 @@
                  
                  <!-- text input -->
                 <div class="form-group">
-                  <label>Họ tên <span class="red-star">*</span></label>
+                  <label>Full name <span class="red-star">*</span></label>
                   <input type="text" class="form-control" name="full_name" id="full_name" value="{{ $detail->full_name }}">
                 </div>
+                <div class="form-group">
+                  <label>Username <span class="red-star">*</span></label>
+                  <input type="text" class="form-control" readonly="true" name="username" id="username" value="{{ $detail->username }}">
+                </div>         
                  <div class="form-group">
                   <label>Email <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" readonly="true" name="email" id="email" value="{{ $detail->email }}">
+                  <input type="text" class="form-control" name="email" id="email" value="{{ $detail->email }}">
                 </div>                            
+                <input type="hidden" name="role" value="3">
                 <div class="form-group">
-                  <label>Role</label>
-                  <select class="form-control" name="role" id="role">                             
-                    <option value="1" {{ $detail->role == 1 ? "selected" : "" }}>Editor</option>                  
-                    <option value="2" {{ $detail->role == 2 ? "selected" : "" }}>Admin</option>                    
-                  </select>
-                </div>                            
-                <div class="form-group">
-                  <label>Trạng thái</label>
+                  <label>Status</label>
                   <select class="form-control" name="status" id="status">                                      
                     <option value="1" {{ $detail->status == 1 ? "selected" : "" }}>Mở</option>                  
                     <option value="2" {{ $detail->status == 2 ? "selected" : "" }}>Khóa</option>                    
                   </select>
                 </div>
+                <div class="form-group">
+                  <label>Smart link</label>
+                  <select class="form-control" name="status" id="status">
+                    <option value=""> -- select --</option>                    
+                    @foreach($smartLink as $link)
+                    <option value="{{ $link->id}}">{{ $link->smart_link }}</option>
+                    @endforeach
+                  </select>
+                </div>
             </div>
             <div class="box-footer">
               <button type="button" class="btn btn-default" id="btnLoading" style="display:none"><i class="fa fa-spin fa-spinner"></i></button>
-              <button type="submit" class="btn btn-primary" id="btnSave">Lưu</button>
-              <a class="btn btn-default" class="btn btn-primary" href="{{ route('account.index')}}">Hủy</a>
+              <button type="submit" class="btn btn-primary" id="btnSave">Save</button>
+              <a class="btn btn-default" class="btn btn-primary" href="{{ route('account.index')}}">Cancel</a>
             </div>
             
         </div>

@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Http\Controllers\Controller;
+Use App\Models\Ug;
+Use App\Models\Meta;
+Use App\Models\Account;
+Use App\Models\SmartLink;
+Use App\Models\CounterIps;
+Use App\Models\CounterValues;
+Use App\Models\Settings;
+
 use Illuminate\Http\Request;
-use Hash, Auth, Mail, Session;
 use App\Http\Requests;
+
+Use Hash;
 
 class HomeController extends Controller
 {
@@ -18,7 +27,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
+        $dataList = Account::where('status', 1)->where('role', 3)
+            ->join('smart_link', 'smart_link.id', '=', 'users.smart_link_id')
+            ->leftJoin('counter_values', 'users.smart_link_id', '=', 'counter_values.smart_link_id')
+            ->orderBy('counter_values.day_value', 'desc')
+            ->orderBy('counter_values.all_value', 'desc')
+            ->select('users.fullname', 'smart_link', 'day_value as traffic')
+            ->get();
+        $cpa_traffic = Settings::where('name', 'cpa_traffic')->first()->value;
+        return view('dashboard.index', compact('dataList', 'cpa_traffic'));
     }
     public function loginForm()
     {   

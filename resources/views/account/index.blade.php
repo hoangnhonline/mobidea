@@ -4,11 +4,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    Tài khoản
+    Member
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="{{ route( 'account.index' ) }}">Tài khoản</a></li>
+    <li><a href="{{ route( 'account.index' ) }}">Member</a></li>
     <li class="active">Danh sách</li>
   </ol>
 </section>
@@ -20,16 +20,16 @@
       @if(Session::has('message'))
       <p class="alert alert-info" >{{ Session::get('message') }}</p>
       @endif
-      <a href="{{ route('account.create') }}" class="btn btn-info" style="margin-bottom:5px">Tạo mới</a>
+      <a href="{{ route('account.create') }}" class="btn btn-info" style="margin-bottom:5px">Add member</a>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Bộ lọc</h3>
+          <h3 class="panel-title">Filter</h3>
         </div>        
       </div>
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Danh sách</h3>
+          <h3 class="box-title">List</h3>
         </div>
         
         <!-- /.box-header -->
@@ -37,11 +37,11 @@
           <table class="table table-bordered" id="table-list-data">
             <tr>
               <th style="width: 1%">#</th>              
-              <th>Họ Tên</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Trạng thái</th>
-              <th width="1%" style="white-space:nowrap">Thao tác</th>
+              <th>Full name</th>
+              <th>Username</th>
+              <th>Smart link</th>              
+              <th>Status</th>
+              <th width="1%" style="white-space:nowrap">Action</th>
             </tr>
             <tbody>
             @if( $items->count() > 0 )
@@ -52,11 +52,15 @@
                   <td><span class="order">{{ $i }}</span></td>
                  
                   <td>                  
-                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}">{{ $item->full_name }}</a>                                
+                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}">{{ $item->fullname }}</a>                                
+                    <br>
+                    {{ $item->email }}
                   </td>
-                  <td>{{ $item->email }}</td>
-                  <td>{{ $item->role == 1 ? "Editor"  : "Admin" }}</td>
-                  <td>{{ $item->status == 1 ? "Mở"  : "Khóa" }}</td>
+                  <td>{{ $item->username }}</td>   
+                  <td>
+                    <a href="{{ $item->smartLink->smart_link }}" target="_blank">{{ $item->smartLink->smart_link }}</a>
+                  </td>
+                  <td>{{ $item->status == 1 ? "Available"  : "Lock" }}</td>
                   <td style="white-space:nowrap">  
                     <a href="{{ route( 'account.update-status', ['status' => $item->status == 1 ? 2 : 1 , 'id' => $item->id ])}}" class="btn btn-sm {{ $item->status == 1 ? "btn-warning" : "btn-info" }}" 
                     @if( $item->status == 2)
@@ -64,17 +68,17 @@
                     @else
                     onclick="return confirm('Bạn chắc chắn muốn KHÓA tài khoản này? '); "
                     @endif
-                    >{{ $item->status == 1 ? "Khóa TK" : "Mở khóa TK" }}</a>                
-                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}" class="btn-sm btn btn-primary">Chỉnh sửa</a>                 
+                    >{{ $item->status == 1 ? "Lock" : "Un-lock" }}</a>                
+                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}" class="btn-sm btn btn-primary">Update</a>                 
                     
-                    <a onclick="return callDelete('{{ $item->name }}','{{ route( 'account.destroy', [ 'id' => $item->id ]) }}');" class="btn-sm btn btn-danger">Xóa</a>
+                    <a onclick="return callDelete('{{ $item->name }}','{{ route( 'account.destroy', [ 'id' => $item->id ]) }}');" class="btn-sm btn btn-danger">Delete</a>
                     
                   </td>
                 </tr> 
               @endforeach
             @else
             <tr>
-              <td colspan="9">Không có dữ liệu.</td>
+              <td colspan="9">Not found data.</td>
             </tr>
             @endif
 

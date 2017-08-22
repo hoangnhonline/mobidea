@@ -8,6 +8,7 @@ use Hash;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+
 use Helper, File, Session, Auth;
 
 class AccountController extends Controller
@@ -19,7 +20,7 @@ class AccountController extends Controller
     */
     public function index(Request $request)
     {          
-        $items = Account::where('role', 2)->where('status', '>', 0)->orderBy('id')->get();        
+        $items = Account::where('role', 3)->where('status', '>', 0)->orderBy('id')->get();        
         
         //$parentCate = Category::where('parent_id', 0)->where('type', 1)->orderBy('display_order')->get();
         
@@ -67,12 +68,15 @@ class AccountController extends Controller
          
         $this->validate($request,[
             'full_name' => 'required',
+            'username' => 'required|unique:users,username',
             'email' => 'required|unique:users,email',
         ],
         [
             'name.required' => 'Bạn chưa nhập họ tên',
+            'username.required' => 'Bạn chưa nhập username',
             'email.required' => 'Bạn chưa nhập email',
-            'email.unique' => 'Email đã được sử dụng.'
+            'email.unique' => 'Email đã được sử dụng.',
+             'username.unique' => 'Username đã được sử dụng.'
         ]);       
         
         $tmpPassword = '123455@';
@@ -111,10 +115,14 @@ class AccountController extends Controller
         $dataArr = $request->all();
         
         $this->validate($request,[
-            'full_name' => 'required'            
+            'full_name' => 'required',         
+            'email' => 'required|unique:users,email',
         ],
         [
-            'name.required' => 'Bạn chưa nhập họ tên'           
+            'name.required' => 'Bạn chưa nhập họ tên',           
+            'email.required' => 'Bạn chưa nhập email',
+            'email.unique' => 'Email đã được sử dụng.',
+            'username.unique' => 'Username đã được sử dụng.'
         ]);      
 
         $model = Account::find($dataArr['id']);
